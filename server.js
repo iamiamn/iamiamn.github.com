@@ -1,17 +1,17 @@
 // server.js
-var http = require('http');
 
-http.createServer(function (request, response) {
+var express = require('express')
+var app = express()
 
-    // 发送 HTTP 头部
-    // HTTP 状态值: 200 : OK
-    // 内容类型: text/plain
-    response.writeHead(200, {'Content-Type': 'text/plain'});
+// 静态 html 页面，需要将当前目录下的所有文件都设置为 static
+app.use(express.static(__dirname + '/'));
 
-    // 发送响应数据 "Hello World"
-    response.end('Hello World\n');
-}).listen(8888);
+app.get('/', function (req, res) {
+    console.log('start server');
+    // sendFile 函数，在有 request 访问时，将当前目录下的 index.html 文件作为 response 返回
+    res.sendFile(__dirname + '/index.html');
+    console.log('start success');
+})
 
-// 终端打印如下信息
-console.log('Server running at http://127.0.0.1:8888/');
-。
+// 监听 8000 端口
+app.listen(process.env.PORT || 8000)
